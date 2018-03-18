@@ -3,7 +3,6 @@
 import pandas as pd
 import numpy as np
 #import matplotlib.pyplot as plt
-#import seaborn as sns
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC, LinearSVC
@@ -14,24 +13,22 @@ from sklearn.linear_model import Perceptron
 from sklearn.linear_model import SGDClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-train_df = pd.read_csv('../titanic_data/train.csv')
-test_df = pd.read_csv('../titanic_data/test.csv')
 
-#train_df = pd.read_csv('../titanic_data/train.csv', sep=',', header=0)
-#test_df = pd.read_csv('../titanic_data/test.csv', sep=',', header=0)
+train_df = pd.read_csv('./train.csv', sep=',', header=0)
+test_df = pd.read_csv('./test.csv', sep=',', header=0)
 
 '''
-以上两段是等价的，read_csv是pandas提供的一个常用的函数，用于读取csv格式的数据
-其中sep和header是常用的两个参数，sep指定分隔符，默认使用“，”，如果没有列名，可
-将header指定为None。
+read_csv 是 pandas 提供的一个常用的函数，用于读取 csv 格式的数据
+sep：指定分隔符，默认使用“，”
+header：文件当中的第 0 行为列名，如果没有列名，可将 header 指定为 None
 '''
 
 print type(train_df)
 
 '''
-打印了数据的格式： <class 'pandas.core.frame.DataFrame'>
-pandas有两个主要的数据结构Series和DataFrame
-DataFrame是一个表格型的数据结构，既有行索引，也有列索引
+打印了数据的格式：<class 'pandas.core.frame.DataFrame'>
+pandas 有两个主要的数据结构 Series 和 DataFrame
+DataFrame 是一个表格型的数据结构，既有行索引，也有列索引
 '''
 
 print train_df.columns.values
@@ -44,25 +41,24 @@ print train_df.head()
 #print train_df.head(3)
 
 '''
-预览数据，默认显示前5行,可以通过注释的方式指定预览的行数
+预览一下数据，默认显示前 5 行
 '''
 
 print train_df.tail()
 #print train_df.tail(3)
 
 '''
-预览数据
+预览一下数据，默认显示后 5 行
 '''
 
 print train_df.info()
 
 '''
 获取DataFrame的基本信息
-<class 'pandas.core.frame.DataFrame'> ：该数据集是一个DataFrame实例
-RangeIndex: 891 entries, 0 to 890 ：共有891行数据，行号为0～980
-Data columns (total 12 columns): ：共有12列数据
-PassengerId    891 non-null int64 ：
-    该列数据的列名为PassengerId，共有891行数据非空，0行数据缺失，数据类型为int64
+<class 'pandas.core.frame.DataFrame'>：该数据集是一个 DataFrame 实例
+RangeIndex: 891 entries, 0 to 890：共有891行数据，行号为 0～890
+Data columns (total 12 columns)：共有 12 列数据
+PassengerId    891 non-null int64：该列数据的列名为 PassengerId，共有 891 行数据非空，0 行数据缺失，数据类型为 int64
 Survived       891 non-null int64
 Pclass         891 non-null int64
 Name           891 non-null object
@@ -74,8 +70,8 @@ Ticket         891 non-null object
 Fare           891 non-null float64
 Cabin          204 non-null object
 Embarked       889 non-null object
-dtypes: float64(2), int64(5), object(5) ：数据类型的汇总信息
-memory usage: 83.6+ KB ：保存该数据集耗费的内存
+dtypes: float64(2), int64(5), object(5)：数据类型的汇总信息
+memory usage: 83.6+ KB：保存该数据集耗费的内存
 '''
 
 print train_df.describe()
@@ -88,7 +84,7 @@ count/mean/std/min/25%/50%/75%/max
 print train_df.describe(include=['O'])
 
 '''
-给出object这类非数值变量的非空值数、unique数、最大频数变量，最大频数
+给出object这类非数值变量的非空值数、unique 数、最大频数变量，最大频数
 '''
 
 print train_df[2:4]
@@ -99,49 +95,22 @@ print train_df[2:4]
 
 print train_df['Sex'].head()
 print train_df[['Name', 'Sex']].head()
-
-'''
-我们可以把DataFrame看成有一组共享索引的Series组成
-0      male
-1    female
-2    female
-3    female
-4      male
-Name: Sex, dtype: object
-
-                                                Name     Sex
-0                            Braund, Mr. Owen Harris    male
-1  Cumings, Mrs. John Bradley (Florence Briggs Th...  female
-2                             Heikkinen, Miss. Laina  female
-3       Futrelle, Mrs. Jacques Heath (Lily May Peel)  female
-4                           Allen, Mr. William Henry    male
-
-'''
-
 print train_df[['Pclass', 'Survived']].groupby(['Pclass'], as_index=False).mean().sort_values(by='Survived', ascending=False)
 print train_df[["Sex", "Survived"]].groupby(['Sex'], as_index=False).mean().sort_values(by='Survived', ascending=False)
 print train_df[["SibSp", "Survived"]].groupby(['SibSp'], as_index=False).mean().sort_values(by='Survived', ascending=False)
 print train_df[["Parch", "Survived"]].groupby(['Parch'], as_index=False).mean().sort_values(by='Survived', ascending=False)
 
-'''
-数据分析
-'''
-
-#####
-
-'''
-可视化分析略
-'''
-
 combine = [train_df, test_df]
 print("Before", train_df.shape, test_df.shape, combine[0].shape, combine[1].shape)
+
 train_df = train_df.drop(['Ticket', 'Cabin'], axis=1)
 test_df = test_df.drop(['Ticket', 'Cabin'], axis=1)
-combine = [tran_df, test_df]
+
+combine = [train_df, test_df]
 print("After", train_df.shape, test_df.shape, combine[0].shape, combine[1].shape)
 
 '''
-丢弃一些作用不大的特征（丢弃了“Ticket”和“Cabin”这两列数据）
+丢弃一些作用不大的特征
 '''
 
 for dataset in combine:
@@ -155,7 +124,6 @@ print pd.crosstab(train_df['Title'], train_df['Sex'])
 for dataset in combine:
     dataset['Title'] = dataset['Title'].replace(['Lady', 'Countess','Capt', 'Col',\
  	'Don', 'Dr', 'Major', 'Rev', 'Sir', 'Jonkheer', 'Dona'], 'Rare')
-
     dataset['Title'] = dataset['Title'].replace('Mlle', 'Miss')
     dataset['Title'] = dataset['Title'].replace('Ms', 'Miss')
     dataset['Title'] = dataset['Title'].replace('Mme', 'Mrs')
@@ -424,7 +392,7 @@ submission = pd.DataFrame({
         "Survived": Y_pred
     })
 print submission.head()
-submission.to_csv('../titanic_data/submission.csv', index=False)
+submission.to_csv('./submission.csv', index=False)
 
 '''
 获得最后要提交的结果
