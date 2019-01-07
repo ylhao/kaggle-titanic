@@ -2,9 +2,22 @@
 
 ## 题目介绍
 
-[题目介绍](https://www.kaggle.com/c/titanic)
-[参考资料](https://www.kaggle.com/startupsci/titanic-data-science-solutions)
+- [题目介绍](https://www.kaggle.com/c/titanic)
+- [Kaggle泰坦尼克-Python（建模完整流程，小白学习用）](http://www.cnblogs.com/rango-lhl/p/9686195.html)
 
-## 介绍
 
-这是 Kaggle 上的一道机器学习入门题，里面包含了一些数据处理的基本方法和机器学习算法的简单应用。大致可以帮助选手熟悉平台、熟悉基本的解题流程和基本的解题方法等。我在学习的过程中，做了一些笔记，希望可以帮到一些人~
+## 项目简介
+
+这是 Kaggle 上的一道机器学习入门题，里面包含了一些数据处理的基本方法和机器学习算法的简单应用。
+
+## 结果
+
+![](./img/res.png)
+
+## 文件说明
+
+- train.csv：训练数据
+- test.csv：测试数据
+- submission.csv：预测结果
+- titanic_solution.ipynb：jupyter notebook 文件
+
